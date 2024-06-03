@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MosTrans_HeatMap</title>
+  <meta charset="utf-8" />
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=dc255822-8c7b-45d1-b8c4-2be23a4cf4b3&lang=ru_RU" type="text/javascript"></script>
+</head>
+<body>
+  <div id="map" style="width: 100%; height: 100vh;"></div>
+  <script>
+    ymaps.ready(init);
+
+    function init() {
+      var myMap = new ymaps.Map('map', {
+        center: [55.742, 37.62],
+        zoom: 11
+      });
+
+      ymaps.ready(function () {
+        ymaps.modules.require(['heatMap.Heatmap'], function (Heatmap) {
+          fetch("http://localhost:600493/api/moscow")
+            
+              });
+
+            //heatmap.setMap(myMap)
+            });
+          }
+          ymaps.modules.require(['geojson'], function (geojson) {
+  geojson.load('path/to/markers.geojson').then(function (res) {
+    // Получаем данные о маркерах из GeoJSON файла.
+    var markers = res.features;
+
+    // Создаем коллекцию меток.
+    var markerCollection = new ymaps.GeoObjectCollection();
+
+    // Добавляем метки на карту.
+    for (var i = 0; i < markers.length; i++) {
+      var marker = markers[i];
+
+      var placemark = new ymaps.Placemark([marker.geometry.coordinates[1], marker.geometry.coordinates[0]], {
+        // Задаем свойства метки.
+      }, {
+        // Задаем опции отображения метки.
+      });
+
+      markerCollection.add(placemark);
+    }
+
+    map.geoObjects.add(markerCollection);
+  });
+});
+  </script>
+</body>
+</html>
